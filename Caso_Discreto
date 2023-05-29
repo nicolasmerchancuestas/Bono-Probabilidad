@@ -1,0 +1,237 @@
+from manim import *
+
+class Proyecto_Bono(Scene):
+    def construct(self):
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        # Presentación - Definición de Objetos
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ax = Axes(x_range=[-4, 4], y_range=[-2.4, 2.4])
+
+        Titulo = Tex("Bono - Probabilidad Total").set_color(BLUE).scale(2)
+        Integrantes = Tex("Integrantes:").set_color(RED).scale(1.5).to_edge(UP)
+        Integrante_1 = Tex("Nicolas Merchan Cuestas").scale(1.5).set_color(GREEN)
+        Integrante_2 = Tex("Luis Hernesto Tejón Rojas").scale(1.5).set_color(GREEN).to_edge(DOWN)
+
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        # Caso Discreto - Definición de Objetos
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        Caso_Discreto_Titulo = Tex("Caso Discreto").set_color(YELLOW).scale(2).to_edge(UP)
+        Particion_Contable_B = Tex(r"$\bigcup_n B_n = S$ donde $S$ es el espacio muestral")
+        Evento_A = Tex(r"$A$ un evento dado")
+        Caso_Discreto_Formula_1 = Tex(r"$\sum_{n} \mathbb{P}(A \cap B_n)$").scale(2)
+        Caso_Discreto_Formula_2 = Tex(r"$\sum_{n} \mathbb{P}(A | B_n) \mathbb{P}(B_n)$").scale(2)
+
+        Formula_Prob_Condicional = Tex(r"$\mathbb{P}(A | B_n) = \frac{\mathbb{P}(A \cap B_n)}{\mathbb{P}(B_n)}$").scale(2)
+        Def_Prob_Condcional = Tex("(Definición de probabilidad total)")
+
+        Func_Espacio_Muestral_1 = FunctionGraph(
+            lambda x: (12 - x**2 / 1.33338) / 5,
+            x_range = [-4, 4], 
+            color = BLUE_A)
+        
+        Func_Espacio_Muestral_2 = FunctionGraph(
+            lambda x: - (12 - x**2 / 1.33338) / 5,
+            x_range = [-4, 4], 
+            color = BLUE_A)
+        
+        Func_Evento_1 = FunctionGraph(lambda x: (12 - 3*x**2) / 9,
+                                      x_range = [-2, 2],
+                                      color = GREEN_A)
+        
+        Func_Evento_2 = FunctionGraph(lambda x: - (12 - 3*x**2) / 9,
+                                      x_range = [-2, 2],
+                                      color = GREEN_A)
+
+        Linea_Eje_X = FunctionGraph(lambda x: 0,
+                                    x_range = [-4, 4],
+                                    color = BLACK)
+        
+        Linea_Eje_Y =  ImplicitFunction(
+            lambda x, y: x,
+            y_range = [-2.4, 2.4],
+            color=BLACK)
+        
+        Area_Espacio = ax.get_area(Func_Espacio_Muestral_1,
+                                   [-4, 4],
+                                   bounded_graph = Func_Espacio_Muestral_2,
+                                   color = BLUE,
+                                   opacity=0.5)
+        
+        Area_Evento = ax.get_area(Func_Evento_1, [-2, 2],
+                                  bounded_graph = Func_Evento_2,
+                                  color = GREEN, 
+                                  opacity=0.5)
+        
+
+        
+        S_Texto = Tex(r"$S$").move_to([3.5, 1.5, 0]).scale(.5)
+        A_Texto = Tex(r"$A$").move_to([3.5, -1.5, 0]).scale(.5)
+
+        S_Arrow = Arrow(start = [3.25, 1.25, 0], end = [1, 1.5, 0])
+        A_Arrow = Arrow(start = [3.25, -1.25, 0], end = [0.5, -0.75, 0])
+
+        B_1_Texto = Tex(r"$B_1$").move_to([-2, 1, 0]).scale(.5)
+        B_2_Texto = Tex(r"$B_2$").move_to([2, 1, 0]).scale(.5)
+        B_3_Texto = Tex(r"$B_3$").move_to([-2, -1, 0]).scale(.5)
+        B_4_Texto = Tex(r"$B_4$").move_to([2, -0.5, 0]).scale(.5)
+        A_B_1_Texto = Tex(r"$A \cup B_1$").move_to([-0.5, 0.5, 0]).scale(.5)
+        A_B_2_Texto = Tex(r"$A \cup B_2$").move_to([0.5, 0.5, 0]).scale(.5)
+        A_B_3_Texto = Tex(r"$A \cup B_3$").move_to([-0.5, -0.5, 0]).scale(.5)
+        A_B_4_Texto = Tex(r"$A \cup B_4$").move_to([0.5, -0.5, 0]).scale(.5)
+
+        Caso_Continuo_Titulo = Tex("Caso Continuo").set_color(RED).scale(2).to_edge(DOWN)
+
+        Disc_Cont_Arrow = Arrow(start = UP, end = DOWN)
+
+        Func_Evento_1 = FunctionGraph(lambda x: (12 - 3*x**2) / 9,
+                                      x_range = [-2, 2],
+                                      color = GREEN_A)
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        # Presentación - Creación de Objetos
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        self.play(Write(Titulo), tun_time = 5)
+        self.wait()
+        self.play(Unwrite(Titulo), tun_time = 5)
+
+        self.play(Create(VGroup(Integrantes, Integrante_1, Integrante_2).arrange(DOWN, buff=.8)), tun_time = 5)
+
+        self.wait()
+
+        self.play(Uncreate(VGroup(Integrantes, Integrante_1, Integrante_2)), tun_time = 5)
+
+        self.wait()
+
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        # Caso Discreto - Creación de Objetos
+        #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        self.play(Write(Caso_Discreto_Titulo), tun_time = 5)
+
+        self.wait()
+
+        self.play(Write(Particion_Contable_B), tun_time = 5)
+
+        self.wait()
+
+        self.play(Unwrite(Particion_Contable_B), tun_time = 5)
+
+        self.wait()
+
+        self.play(Write(Evento_A), tun_time = 5)
+
+        self.wait()
+
+        self.play(Unwrite(Evento_A), tun_time = 5)
+
+        self.wait()
+
+        self.play(Write(Caso_Discreto_Formula_1), tun_time = 5)
+        self.play(ReplacementTransform(Caso_Discreto_Formula_1, Caso_Discreto_Formula_2))
+
+        self.wait()
+
+        self.play(Unwrite(Caso_Discreto_Formula_2), tun_time = 5)
+
+        self.wait()
+
+        self.play(Create(VGroup(Formula_Prob_Condicional, Def_Prob_Condcional).arrange(DOWN, buff=.8)), tun_time = 5)
+
+        self.wait()
+
+        self.play(Uncreate(VGroup(Formula_Prob_Condicional, Def_Prob_Condcional)), tun_time = 5)
+
+        self.wait()
+
+        self.play(Create(VGroup(Func_Espacio_Muestral_1,
+                                Func_Espacio_Muestral_2, 
+                                Func_Evento_1, 
+                                Func_Evento_2,
+                                Area_Espacio,
+                                Area_Evento,
+                                Linea_Eje_X,
+                                Linea_Eje_Y,
+                                S_Texto,
+                                S_Arrow,
+                                A_Texto,
+                                A_Arrow)),
+                                tun_time = 10)
+
+        self.wait()
+
+        self.play(Create(VGroup(B_1_Texto,
+                                B_2_Texto,
+                                B_3_Texto,
+                                B_4_Texto)),
+                                tun_time = 10)
+
+        self.wait()
+
+        self.play(Create(VGroup(A_B_1_Texto,
+                                A_B_2_Texto,
+                                A_B_3_Texto,
+                                A_B_4_Texto)),
+                                tun_time = 10)
+
+
+        self.wait()
+
+        self.play(Uncreate(VGroup(A_B_1_Texto,
+                                A_B_2_Texto,
+                                A_B_3_Texto,
+                                A_B_4_Texto)),
+                                tun_time = 10)
+        
+        self.wait()
+
+        self.play(Uncreate(VGroup(B_1_Texto,
+                                B_2_Texto,
+                                B_3_Texto,
+                                B_4_Texto)),
+                                tun_time = 10)
+        
+        self.wait()
+
+        self.play(FadeOut(VGroup(Func_Espacio_Muestral_1,
+                                Func_Espacio_Muestral_2, 
+                                Func_Evento_1, 
+                                Func_Evento_2,
+                                Area_Espacio,
+                                Area_Evento,
+                                Linea_Eje_X,
+                                Linea_Eje_Y,
+                                S_Texto,
+                                S_Arrow,
+                                A_Texto,
+                                A_Arrow)),
+                                tun_time = 10)
+
+
+        self.wait()
+
+        self.play(Create(Disc_Cont_Arrow))
+
+        self.wait()
+
+        self.play(FadeIn(Caso_Continuo_Titulo))
+
+        self.wait()
+
+        self.play(FadeOut(Disc_Cont_Arrow))
+
+        self.wait()
+
+        self.play(Transform(Caso_Discreto_Titulo, Caso_Continuo_Titulo))
+        self.play(Uncreate(Caso_Discreto_Titulo))
+
+        self.wait()
+
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.shift(UP), run_time = 0.25)
+        self.play(Caso_Continuo_Titulo.animate.scale(0.75), run_time = 3)
+
+        self.clear()
+
+        self.wait()
